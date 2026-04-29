@@ -20,6 +20,9 @@ It exposes:
 D:\Drive\TMXT\Project\.venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
+When running the packaged executable, settings can be supplied in a `coordinator.env`
+file placed beside `tmxt-coordinator.exe`.
+
 ## Docker
 
 ```powershell
@@ -70,6 +73,7 @@ powershell -ExecutionPolicy Bypass -File D:\Drive\TMXT\Project\apps\coordinator\
 The packaged executable is written to:
 
 - `D:\Drive\TMXT\Project\apps\dist\coordinator\tmxt-coordinator.exe`
+- `D:\Drive\TMXT\Project\apps\dist\coordinator\coordinator.env.example`
 
 For local prototype testing, clients and workers can use:
 
@@ -77,3 +81,31 @@ For local prototype testing, clients and workers can use:
 - `ws://127.0.0.1:8000/ws/worker`
 
 For multi-machine testing on a LAN, replace `127.0.0.1` with the coordinator machine's LAN IP.
+
+## ngrok Autostart
+
+The packaged coordinator can automatically launch ngrok when it starts.
+
+Requirements:
+
+- `ngrok.exe` must be either:
+  - beside `tmxt-coordinator.exe`, or
+  - available on `PATH`, or
+  - referenced by `NGROK_PATH`
+- ngrok must be authenticated either through:
+  - `NGROK_AUTHTOKEN` in `coordinator.env`, or
+  - an existing ngrok login/config on the machine
+
+Suggested packaged setup:
+
+1. Copy `coordinator.env.example` to `coordinator.env`
+2. Set `NGROK_AUTOSTART=1`
+3. Set `NGROK_AUTHTOKEN=...`
+4. Optionally set `NGROK_URL=https://your-assigned-name.ngrok-free.app`
+5. Put `ngrok.exe` beside `tmxt-coordinator.exe`
+
+On startup, the coordinator will print:
+
+- the detected ngrok public URL
+- the worker websocket endpoint
+- the client websocket endpoint
