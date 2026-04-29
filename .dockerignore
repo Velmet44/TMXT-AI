@@ -1,0 +1,15 @@
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+build/
+dist/
+tests/
+
+.venv/
+
+coordinator.db
+app/coordinator.db
